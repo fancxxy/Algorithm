@@ -57,6 +57,9 @@ func TestInOrder(t *testing.T) {
 func TestLevelOrder(t *testing.T) {
 	order := tree.LevelOrder()
 	assert.Equal(t, level, order, "LevelOrder")
+
+	order = tree.LevelOrderRecursive()
+	assert.Equal(t, level, order, "LevelOrder")
 }
 
 func TestBuildTreeFromPostIn(t *testing.T) {
@@ -67,4 +70,30 @@ func TestBuildTreeFromPostIn(t *testing.T) {
 func TestBuildTreeFromPreIn(t *testing.T) {
 	builded := BuildTreeFromPreIn(pre, in)
 	assert.Equal(t, tree, builded, "BuildTreeFromPreIn")
+}
+
+func TestInvertTree(t *testing.T) {
+	inverted := &TreeNode{
+		Value: 1,
+		Right: &TreeNode{
+			Value: 2,
+			Right: &TreeNode{Value: 3},
+			Left:  &TreeNode{Value: 4},
+		},
+		Left: &TreeNode{
+			Value: 5,
+			Right: &TreeNode{
+				Value: 6,
+				Right: &TreeNode{Value: 7},
+				Left:  &TreeNode{Value: 8},
+			},
+			Left: &TreeNode{
+				Value: 9,
+				Right: &TreeNode{Value: 0},
+			},
+		},
+	}
+
+	assert.Equal(t, inverted, tree.InvertTree(), "InvertTree")
+	assert.Equal(t, inverted, tree.InvertTree().InvertTreeRecursive(), "InvertTreeRecursive")
 }
