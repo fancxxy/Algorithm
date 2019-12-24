@@ -11,3 +11,11 @@
 * [前序中序构造二叉树](tree/binarytree/binarytree.go#L163)
 * [中序后序构造二叉树](tree/binarytree/binarytree.go#L181)
 * [翻转二叉树](tree/binarytree/binarytree.go#L199)
+* [前驱结点](tree/binarytree/binarytree.go#L240)
+* [后继结点](tree/binarytree/binarytree.go#L250)
+
+### 二叉搜索树
+
+* [搜索结点](tree/binarytree/bst/bst.go#L15)
+* [插入结点](tree/binarytree/bst/bst.go#L30)
+* [删除结点](tree/binarytree/bst/bst.go#L54)
