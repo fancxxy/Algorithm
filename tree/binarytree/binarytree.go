@@ -237,6 +237,26 @@ func (root *TreeNode) InvertTreeRecursive() *TreeNode {
 	return invert(root)
 }
 
+// Predecessor 前驱
+func (root *TreeNode) Predecessor() *TreeNode {
+	curr := root.Left
+
+	for curr.Right != nil {
+		curr = curr.Right
+	}
+	return curr
+}
+
+// Successor 后继
+func (root *TreeNode) Successor() *TreeNode {
+	curr := root.Right
+
+	for curr.Left != nil {
+		curr = curr.Left
+	}
+	return curr
+}
+
 func index(val int, slice []int) int {
 	for i, v := range slice {
 		if val == v {

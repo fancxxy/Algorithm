@@ -6,6 +6,20 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
+/*
+                  1
+                 / \
+                /   \
+               2     \
+              / \     5
+             3   4   / \
+                    /   \
+                   6     \
+                  / \     9
+				 7   8   /
+				        0
+*/
+
 var (
 	in    = []int{3, 2, 4, 1, 7, 6, 8, 5, 0, 9}
 	pre   = []int{1, 2, 3, 4, 5, 6, 7, 8, 9, 0}
@@ -38,28 +52,28 @@ func TestPreOrder(t *testing.T) {
 	assert := assert.New(t)
 
 	order := tree.PreOrder()
-	assert.Equal(pre, order, "PreOrder")
+	assert.Equal(pre, order, "TreeNode.PreOrder")
 
 	order = tree.PreOrderRecursive()
-	assert.Equal(pre, order, "PreOrderRecursive")
+	assert.Equal(pre, order, "TreeNode.PreOrderRecursive")
 }
 
 func TestPostOrder(t *testing.T) {
 	order := tree.PostOrder()
-	assert.Equal(t, post, order, "PostOrder")
+	assert.Equal(t, post, order, "TreeNode.PostOrder")
 }
 
 func TestInOrder(t *testing.T) {
 	order := tree.InOrder()
-	assert.Equal(t, in, order, "InOrder")
+	assert.Equal(t, in, order, "TreeNode.InOrder")
 }
 
 func TestLevelOrder(t *testing.T) {
 	order := tree.LevelOrder()
-	assert.Equal(t, level, order, "LevelOrder")
+	assert.Equal(t, level, order, "TreeNode.LevelOrder")
 
 	order = tree.LevelOrderRecursive()
-	assert.Equal(t, level, order, "LevelOrder")
+	assert.Equal(t, level, order, "TreeNode.LevelOrder")
 }
 
 func TestBuildTreeFromPostIn(t *testing.T) {
@@ -94,6 +108,16 @@ func TestInvertTree(t *testing.T) {
 		},
 	}
 
-	assert.Equal(t, inverted, tree.InvertTree(), "InvertTree")
-	assert.Equal(t, inverted, tree.InvertTree().InvertTreeRecursive(), "InvertTreeRecursive")
+	assert.Equal(t, inverted, tree.InvertTree(), "TreeNode.InvertTree")
+	assert.Equal(t, inverted, tree.InvertTree().InvertTreeRecursive(), "TreeNode.InvertTreeRecursive")
+}
+
+func TestPredecessor(t *testing.T) {
+	assert.Equal(t, tree.Predecessor().Value, 4, "TreeNode.Predecessor")
+	assert.NotEqual(t, tree.Predecessor().Value, 3, "TreeNode.Predecessor")
+}
+
+func TestSuccessor(t *testing.T) {
+	assert.Equal(t, tree.Successor().Value, 7, "TreeNode.Successor")
+	assert.NotEqual(t, tree.Successor().Value, 8, "TreeNode.Successor")
 }
