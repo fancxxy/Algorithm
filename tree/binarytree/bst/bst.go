@@ -71,14 +71,13 @@ func (tree *Bst) Delete(value int) {
 			node.Left = delete(node.Left, value)
 		} else {
 			if node.Left == nil {
-				return node.Right
+				node = node.Right
+			} else if node.Right == nil {
+				node = node.Left
+			} else {
+				node.Value = node.Successor().Value
+				node.Right = delete(node.Right, node.Value)
 			}
-			if node.Right == nil {
-				return node.Left
-			}
-
-			node.Value = node.Successor().Value
-			node.Right = delete(node.Right, node.Value)
 		}
 		return node
 	}

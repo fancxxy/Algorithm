@@ -2,9 +2,10 @@ package binarytree
 
 // TreeNode 二叉树结点
 type TreeNode struct {
-	Value int
-	Left  *TreeNode
-	Right *TreeNode
+	Value  int
+	Height int
+	Left   *TreeNode
+	Right  *TreeNode
 }
 
 // PreOrder 前序遍历 DFS
