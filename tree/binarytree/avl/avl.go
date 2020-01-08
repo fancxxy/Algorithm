@@ -163,10 +163,8 @@ func (tree *Avl) Delete(value int) {
 
 func rightRotation(x *TreeNode) *TreeNode {
 	y := x.Left
-	T := y.Right
-
+	x.Left = y.Right
 	y.Right = x
-	x.Left = T
 
 	x.Height = max(height(x.Left), height(x.Right)) + 1
 	y.Height = max(height(y.Left), height(y.Right)) + 1
@@ -176,10 +174,8 @@ func rightRotation(x *TreeNode) *TreeNode {
 
 func leftRotation(x *TreeNode) *TreeNode {
 	y := x.Right
-	T := y.Left
-
+	x.Right = y.Left
 	y.Left = x
-	x.Right = T
 
 	x.Height = max(height(x.Left), height(x.Right)) + 1
 	y.Height = max(height(y.Left), height(y.Right)) + 1
