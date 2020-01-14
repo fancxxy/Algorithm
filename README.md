@@ -4,24 +4,30 @@
 
 ### 二叉树
 
-* [前序遍历](tree/binarytree/binarytree.go#L11)
-* [中序遍历](tree/binarytree/binarytree.go#L57)
-* [后序遍历](tree/binarytree/binarytree.go#L78)
-* [层次遍历](tree/binarytree/binarytree.go#L109)
+* [前序](tree/binarytree/binarytree.go#L11)
+* [中序](tree/binarytree/binarytree.go#L57)
+* [后序](tree/binarytree/binarytree.go#L78)
+* [层次](tree/binarytree/binarytree.go#L109)
+* [翻转](tree/binarytree/binarytree.go#L200)
+* [前驱](tree/binarytree/binarytree.go#L241)
+* [后继](tree/binarytree/binarytree.go#L251)
 * [前序中序构造二叉树](tree/binarytree/binarytree.go#L164)
 * [中序后序构造二叉树](tree/binarytree/binarytree.go#L182)
-* [翻转二叉树](tree/binarytree/binarytree.go#L200)
-* [前驱结点](tree/binarytree/binarytree.go#L241)
-* [后继结点](tree/binarytree/binarytree.go#L251)
 
 ### 二叉搜索树
 
-* [搜索结点](tree/binarytree/bst/bst.go#L15)
-* [插入结点](tree/binarytree/bst/bst.go#L30)
-* [删除结点](tree/binarytree/bst/bst.go#L54)
+* [搜索](tree/binarytree/bst/bst.go#L15)
+* [插入](tree/binarytree/bst/bst.go#L30)
+* [删除](tree/binarytree/bst/bst.go#L54)
 
 ### 平衡二叉树
 
-* [搜索结点](tree/binarytree/avl/avl.go#L47)
-* [插入结点](tree/binarytree/avl/avl.go#L62)
-* [删除结点](tree/binarytree/avl/avl.go#L109)
+* [搜索](tree/binarytree/avl/avl.go#L17)
+* [插入](tree/binarytree/avl/avl.go#L32)
+* [删除](tree/binarytree/avl/avl.go#L79)
+
+### B树
+
+* [搜索](tree/btree/btree.go#L18)
+* [插入](tree/btree/btree.go#L38)
+* [删除](tree/btree/btree.go#L124)

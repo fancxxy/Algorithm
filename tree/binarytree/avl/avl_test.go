@@ -53,9 +53,9 @@ func TestAvlInsert(t *testing.T) {
 	assert.Equal(t, avl.Root, tree, "Avl.Insert")
 }
 
-func TestAvlDelete(t *testing.T) {
+func TestAvlRemove(t *testing.T) {
 	var (
-		deleted = &TreeNode{
+		removed = &TreeNode{
 			Value:  4,
 			Height: 2,
 			Left: &TreeNode{
@@ -79,9 +79,9 @@ func TestAvlDelete(t *testing.T) {
 		avl.Insert(value)
 	}
 
-	avl.Delete(8)
-	avl.Delete(9)
-	avl.Delete(10)
+	avl.Remove(8)
+	avl.Remove(9)
+	avl.Remove(10)
 
-	assert.Equal(t, avl.Root, deleted, "avl.Delete")
+	assert.Equal(t, avl.Root, removed, "avl.Remove")
 }

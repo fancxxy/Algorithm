@@ -1,63 +1,5 @@
 package btree
 
-/*
-
-1.所有叶子结点在同一层
-2.b树的最小度为t，度就是结点子树的个数
-3.t - 1 <= len(elements) <= 2t - 1
-4.t < len(children) < 2t
-5.结点len(children) = len(elements) + 1
-6.所有结点的key都是按递增顺序排序，关键字k1和k2之间的子树包含的所有关键字k1<key<k2
-7.b树增长和收缩都是从root开始
-8.查询，插入，删除时间复杂度都是O(logn)
-
-Insert
-所有插入操作都是在叶子结点
-插入从根结点开始向下递归寻找合适的结点
-遍历的所有结点，如果已满，分裂成两个结点
-中间key上移到父结点合适位置，分裂后的结点分别获得原始结点前半和后半的key以及child
-
-插入1，创建根结点
-		| 1 |
-
-插入2、3，无需分裂
-		| 1 | 2 | 3 |
-
-插入4，创建新的根结点，分裂原来的根结点作为叶子结点
-		| 2 |
-	   /     \
-	| 1 |   | 3 | 4 |
-
-插入5
- 		| 2 |
-	   /     \
-   | 1 |    | 3 | 4 | 5 |
-
-插入6，分裂叶子结点，上移元素4到父结点
-		| 2 | 4 |
-	  /     |     \
-   | 1 |  | 3 |  | 5 | 6 |
-
-插入7
-		| 2 | 4 |
-	   /    |     \
-   | 1 |  | 3 |  | 5 | 6 | 7 |
-
-插入8，分裂上移元素6
-		| 2 | 4 | 6 |
-	  /     |   |     \
-  | 1 |  | 3 | | 5 |  | 7 | 8 |
-
-插入9，分裂根结点，继续遍历，插入元素到叶子结点
-			   | 4 |
-		    /	      \
-	   | 2 |         | 6 |
-	 /      \       /     \
- | 1 |    | 3 |   | 5 |   | 7 | 8 | 9 |
-
-
-*/
-
 type (
 	// BTree b树
 	BTree struct {
@@ -72,6 +14,26 @@ type (
 		Leaf     bool
 	}
 )
+
+// Search 查找
+func (tree *BTree) Search(value int) *TreeNode {
+	if tree.Root == nil {
+		return nil
+	}
+
+	return tree.Root.search(value)
+}
+
+func (node *TreeNode) search(value int) *TreeNode {
+	index := find(node.Elements, value)
+	if index < len(node.Elements) && node.Elements[index] == value {
+		return node
+	}
+	if node.Leaf {
+		return nil
+	}
+	return node.Children[index].search(value)
+}
 
 // Insert 插入
 func (tree *BTree) Insert(value int) {
@@ -153,7 +115,132 @@ func insertChild(slice []*TreeNode, index int, value *TreeNode) []*TreeNode {
 
 func find(slice []int, value int) int {
 	i := len(slice) - 1
-	for ; i >= 0 && value < slice[i]; i-- {
+	for i >= 0 && value <= slice[i] {
+		i--
 	}
 	return i + 1
+}
+
+// Remove 删除
+func (tree *BTree) Remove(value int) {
+	if tree.Root == nil {
+		return
+	}
+
+	tree.Root.remove(value)
+
+	if len(tree.Root.Elements) == 0 {
+		if tree.Root.Leaf {
+			tree.Root = nil
+		} else {
+			tree.Root = tree.Root.Children[0]
+		}
+	}
+}
+
+func (node *TreeNode) remove(value int) {
+	index := find(node.Elements, value)
+	degree := cap(node.Children) / 2
+	// 找到被删除元素
+	if index < len(node.Elements) && node.Elements[index] == value {
+		// 在叶子结点，直接删除
+		if node.Leaf {
+			node.Elements = append(node.Elements[:index], node.Elements[index+1:]...)
+			return
+		}
+
+		// 在非叶子结点，找前驱、后继结点，条件不足合并俩子结点
+		if len(node.Children[index].Elements) >= degree {
+			pred := node.predecessor(index)
+			node.Elements[index] = pred
+			node.Children[index].remove(pred)
+		} else if len(node.Children[index+1].Elements) >= degree {
+			succ := node.successor(index)
+			node.Elements[index] = succ
+			node.Children[index].remove(succ)
+		} else {
+			node.merge(index)
+			node.Children[index].remove(value)
+		}
+		return
+	}
+
+	// 没找到，已到叶子结点直接返回
+	if node.Leaf {
+		return
+	}
+
+	// 查询的中间结点，子结点个数如果等于最小度t-1，需要从别处补一个值
+	if len(node.Children[index].Elements) < degree {
+		if index != 0 && len(node.Children[index-1].Elements) >= degree {
+			node.borrowFromPrev(index)
+		} else if index != len(node.Elements) && len(node.Children[index+1].Elements) >= degree {
+			node.borrowFromNext(index)
+		} else {
+			if index == len(node.Elements) {
+				index--
+			}
+			node.merge(index)
+		}
+	}
+
+	node.Children[index].remove(value)
+}
+
+func (node *TreeNode) borrowFromPrev(index int) {
+	child, sibling := node.Children[index], node.Children[index-1]
+	n := len(sibling.Elements)
+
+	child.Elements = insertElement(child.Elements, 0, node.Elements[index-1])
+	node.Elements[index-1] = sibling.Elements[n-1]
+	sibling.Elements = sibling.Elements[:n-1]
+
+	if !child.Leaf {
+		child.Children = insertChild(child.Children, 0, sibling.Children[n])
+		sibling.Children = sibling.Children[:n]
+	}
+}
+
+func (node *TreeNode) borrowFromNext(index int) {
+	child, sibling := node.Children[index], node.Children[index+1]
+
+	child.Elements = append(child.Elements, node.Elements[index])
+	node.Elements[index] = sibling.Elements[0]
+	sibling.Elements = sibling.Elements[1:]
+
+	if !child.Leaf {
+		child.Children = append(child.Children, sibling.Children[0])
+		sibling.Children = sibling.Children[1:]
+	}
+}
+
+func (node *TreeNode) merge(index int) {
+	child, sibling := node.Children[index], node.Children[index+1]
+
+	child.Elements = append(child.Elements, node.Elements[index])
+	child.Elements = append(child.Elements, sibling.Elements...)
+	node.Elements = append(node.Elements[:index], node.Elements[index+1:]...)
+
+	if !child.Leaf {
+		child.Children = append(child.Children, sibling.Children...)
+	}
+	node.Children = append(node.Children[:index+1], node.Children[index+2:]...)
+}
+
+func (node *TreeNode) predecessor(index int) int {
+	curr := node.Children[index]
+
+	for !curr.Leaf {
+		curr = curr.Children[len(curr.Elements)]
+	}
+	return curr.Elements[len(curr.Elements)-1]
+}
+
+func (node *TreeNode) successor(index int) int {
+	curr := node.Children[index+1]
+
+	for !curr.Leaf {
+		curr = curr.Children[0]
+	}
+	return curr.Elements[0]
 }

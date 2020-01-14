@@ -14,36 +14,6 @@ type (
 	}
 )
 
-/*
-LL, right rotation:
-		x                   y
-	   /                   / \
-	  y        -->        z   x
-	 /
-	z
-
-RR, left rotation:
-	x	                    y
-	 \                     / \
-	  y        -->        x   z
-	   \
-	    z
-
-LR, left right rotation:
-		x                   x                     z
-	   /                   /                     / \
-	  y        -->        z         -->         y   x
-	   \                 /
-	    z               y
-
-RL, right left rotation:
-	x	                x                         z
-	 \                   \                       / \
-	  y        -->        z         -->         x   y
-	 /                     \
-    z                       y
-*/
-
 // Search 查找
 func (tree *Avl) Search(value int) *TreeNode {
 	curr := tree.Root
@@ -106,8 +76,8 @@ func (tree *Avl) Insert(value int) {
 	tree.Root = insert(tree.Root, value)
 }
 
-// Delete 删除
-func (tree *Avl) Delete(value int) {
+// Remove 删除
+func (tree *Avl) Remove(value int) {
 	var (
 		delete func(*TreeNode, int) *TreeNode
 	)
