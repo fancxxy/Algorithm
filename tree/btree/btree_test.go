@@ -62,7 +62,7 @@ func TestBTreeInsert(t *testing.T) {
 		btree.Insert(i)
 	}
 
-	assert.Equal(t, btree.Root, tree, "BTree.Insert")
+	assert.Equal(t, tree, btree.Root, "BTree.Insert")
 }
 
 func TestBTreeRemove(t *testing.T) {
@@ -76,5 +76,5 @@ func TestBTreeRemove(t *testing.T) {
 		btree1.Remove(i)
 	}
 
-	assert.Equal(t, btree1, btree2, "BTree.Remove")
+	assert.Equal(t, btree2, btree1, "BTree.Remove")
 }

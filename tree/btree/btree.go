@@ -82,17 +82,19 @@ func (node *TreeNode) insert(value int) {
 
 func (node *TreeNode) split() (int, *TreeNode) {
 	degree := cap(node.Children) / 2
-
 	element := node.Elements[degree-1]
 	splited := &TreeNode{
 		Elements: make([]int, degree-1, 2*degree-1),
-		Children: make([]*TreeNode, 0, 2*degree),
 		Leaf:     node.Leaf,
+	}
+	if !node.Leaf {
+		splited.Children = make([]*TreeNode, degree, 2*degree)
+	} else {
+		splited.Children = make([]*TreeNode, 0, 2*degree)
 	}
 	copy(splited.Elements[0:], node.Elements[degree:])
 	node.Elements = node.Elements[:degree-1]
 	if !node.Leaf {
-		splited.Children = make([]*TreeNode, degree, 2*degree)
 		copy(splited.Children[0:], node.Children[degree:])
 		node.Children = node.Children[:degree]
 	}
@@ -149,7 +151,7 @@ func (node *TreeNode) remove(value int) {
 			return
 		}
 
-		// 在非叶子结点，找前驱、后继结点，条件不足合并俩子结点
+		// 在非叶子结点，找前驱、后继，条件不足合并俩子结点
 		if len(node.Children[index].Elements) >= degree {
 			pred := node.predecessor(index)
 			node.Elements[index] = pred
@@ -170,7 +172,7 @@ func (node *TreeNode) remove(value int) {
 		return
 	}
 
-	// 查询的中间结点，子结点个数如果等于最小度t-1，需要从别处补一个值
+	// 查询的中间结点，子结点key个数如果等于最小度t-1，需要从别处补一个值
 	if len(node.Children[index].Elements) < degree {
 		if index != 0 && len(node.Children[index-1].Elements) >= degree {
 			node.borrowFromPrev(index)

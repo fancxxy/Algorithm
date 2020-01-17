@@ -47,7 +47,7 @@ func TestBstSearch(t *testing.T) {
 	bst := &Bst{Root: tree}
 
 	for i := 1; i <= 10; i++ {
-		assert.Equal(t, bst.Search(i).Value, i, "Bst.Search")
+		assert.Equal(t, i, bst.Search(i).Value, "Bst.Search")
 	}
 }
 func TestBstInsert(t *testing.T) {
@@ -58,7 +58,7 @@ func TestBstInsert(t *testing.T) {
 		bst.Insert(value)
 	}
 
-	assert.Equal(t, bst.Root, tree, "Bst.Insert")
+	assert.Equal(t, tree, bst.Root, "Bst.Insert")
 }
 
 func TestBstDelete(t *testing.T) {
@@ -90,5 +90,5 @@ func TestBstDelete(t *testing.T) {
 	}
 
 	bst.Delete(8)
-	assert.Equal(t, bst.Root, deleted, "Bst.Delete")
+	assert.Equal(t, deleted, bst.Root, "Bst.Delete")
 }

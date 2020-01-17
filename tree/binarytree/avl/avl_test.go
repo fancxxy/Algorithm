@@ -38,7 +38,7 @@ func TestAvlSearch(t *testing.T) {
 	avl := &Avl{Root: tree}
 
 	for i := 1; i <= 10; i++ {
-		assert.Equal(t, avl.Search(i).Value, i, "Avl.Search")
+		assert.Equal(t, i, avl.Search(i).Value, "Avl.Search")
 	}
 }
 
@@ -50,7 +50,7 @@ func TestAvlInsert(t *testing.T) {
 		avl.Insert(value)
 	}
 
-	assert.Equal(t, avl.Root, tree, "Avl.Insert")
+	assert.Equal(t, tree, avl.Root, "Avl.Insert")
 }
 
 func TestAvlRemove(t *testing.T) {
@@ -83,5 +83,5 @@ func TestAvlRemove(t *testing.T) {
 	avl.Remove(9)
 	avl.Remove(10)
 
-	assert.Equal(t, avl.Root, removed, "avl.Remove")
+	assert.Equal(t, removed, avl.Root, "avl.Remove")
 }
