@@ -1,5 +1,14 @@
 # 算法
 
+## 线性表
+
+* [单链表](list/singlylinkedlist/singlylinkedlist.go)
+* [双链表](list/doublylinkedlist/doublylinkedlist.go)
+
+### 应用
+
+* [一元多项式加加法和乘法计算](examples/list/polynomial/main.go)
+
 ## 树形结构
 
 ### 二叉树
