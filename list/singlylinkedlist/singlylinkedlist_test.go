@@ -66,6 +66,19 @@ func TestDelete(t *testing.T) {
 	assert.Equal(t, deleted, cleared, "singlylinkedlist.Clear")
 }
 
+func TestRemove(t *testing.T) {
+	var (
+		removed = singlyList()
+		values  = []int{2, 3, 1, 5, 4}
+	)
+
+	assert.Equal(t, false, removed.Remove(&ListNode{List: removed}))
+	for _, value := range values {
+		assert.Equal(t, true, removed.Remove(removed.Find(value)))
+	}
+	assert.Equal(t, false, removed.Remove(removed.First()))
+}
+
 func TestFind(t *testing.T) {
 	var (
 		singly = singlyList()

@@ -78,9 +78,9 @@ func (list *List) Delete(value interface{}) bool {
 	return list.Remove(node)
 }
 
-// Remove 移除at所在的结点，成功返回true
+// Remove 移除at结点，成功返回true
 func (list *List) Remove(at *ListNode) bool {
-	if at == nil {
+	if at == nil || at.List != list {
 		return false
 	}
 

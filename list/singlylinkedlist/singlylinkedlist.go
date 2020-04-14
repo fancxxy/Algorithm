@@ -69,17 +69,41 @@ func (list *List) Find(value interface{}) *ListNode {
 
 // Delete 删除第一个元素值为value结点，成功返回true
 func (list *List) Delete(value interface{}) bool {
-	node := list.findPrev(value)
-	return list.Remove(node)
-}
+	node := list.head
+	for node.Next != nil && node.Next.Value != value {
+		node = node.Next
+	}
 
-// Remove 移除at的后一个结点
-func (list *List) Remove(at *ListNode) bool {
-	if at == nil || at.Next == nil {
+	if node.Next == nil {
 		return false
 	}
 
-	at.Next = at.Next.Next
+	return list.Remove(node)
+}
+
+// Remove 移除at结点，成功返回true
+// 如果at不是最后一个结点，把后继结点赋值给at，删除后继结点
+func (list *List) Remove(at *ListNode) bool {
+	if at == nil || at.List != list {
+		return false
+	}
+
+	// 找到at的前驱结点
+	if at.Next == nil {
+		node := list.head
+		for node.Next != nil && node.Next != at {
+			node = node.Next
+		}
+		// 没有找到
+		if node.Next == nil {
+			return false
+		}
+		node.Next = nil
+	} else {
+		at.Value = at.Next.Value
+		at.Next = at.Next.Next
+	}
+
 	list.size--
 	return true
 }
@@ -93,13 +117,4 @@ func (list *List) Values() []interface{} {
 		node = node.Next
 	}
 	return slice
-}
-
-// 找到前驱结点
-func (list *List) findPrev(value interface{}) *ListNode {
-	node := list.head
-	for node.Next != nil && node.Next.Value != value {
-		node = node.Next
-	}
-	return node
 }

@@ -99,12 +99,13 @@ func multiplyPolynomial(poly1, poly2 *singlylinkedlist.List) *singlylinkedlist.L
 		node1 = node1.Next
 	}
 
-	curr := poly3.Head().Next
+	curr := poly3.First()
 	for curr != nil && curr.Next != nil {
 		currValue := curr.Value.(*polynomial)
-		dup := curr
-		for dup.Next != nil {
-			dupValue := dup.Next.Value.(*polynomial)
+		// dup是可能需要被合并结点的结点
+		dup := curr.Next
+		for dup != nil {
+			dupValue := dup.Value.(*polynomial)
 			if currValue.Exponent == dupValue.Exponent {
 				currValue.Coefficient += dupValue.Coefficient
 				poly3.Remove(dup)
