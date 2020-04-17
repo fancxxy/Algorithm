@@ -74,11 +74,14 @@ func (list *List) Delete(value interface{}) bool {
 		node = node.Next
 	}
 
+	// 没有找到
 	if node.Next == nil {
 		return false
 	}
 
-	return list.Remove(node)
+	node.Next = node.Next.Next
+	list.size--
+	return true
 }
 
 // Remove 移除at结点，成功返回true
