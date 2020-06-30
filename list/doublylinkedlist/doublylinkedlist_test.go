@@ -15,19 +15,19 @@ import (
 func doublyList() *List {
 	doubly := new(List)
 
-	node0 := &ListNode{Value: 2, List: doubly}
-	node1 := &ListNode{Value: 4, List: doubly, Next: node0}
-	node2 := &ListNode{Value: 1, List: doubly, Next: node1}
-	node3 := &ListNode{Value: 3, List: doubly, Next: node2}
-	node4 := &ListNode{Value: 5, List: doubly, Next: node3}
-	doubly.head = &ListNode{List: doubly, Next: node4}
-	node0.Next = doubly.head
-	doubly.head.Prev = node0
-	node0.Prev = node1
-	node1.Prev = node2
-	node2.Prev = node3
-	node3.Prev = node4
-	node4.Prev = doubly.head
+	node0 := &ListNode{Value: 2, list: doubly}
+	node1 := &ListNode{Value: 4, list: doubly, next: node0}
+	node2 := &ListNode{Value: 1, list: doubly, next: node1}
+	node3 := &ListNode{Value: 3, list: doubly, next: node2}
+	node4 := &ListNode{Value: 5, list: doubly, next: node3}
+	doubly.head = &ListNode{list: doubly, next: node4}
+	node0.next = doubly.head
+	doubly.head.prev = node0
+	node0.prev = node1
+	node1.prev = node2
+	node2.prev = node3
+	node3.prev = node4
+	node4.prev = doubly.head
 
 	doubly.len = 5
 	return doubly

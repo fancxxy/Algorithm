@@ -15,13 +15,14 @@ import (
 func singlyList() *List {
 	singly := new(List)
 
-	node0 := &ListNode{Value: 2, List: singly, Next: nil}
-	node1 := &ListNode{Value: 4, List: singly, Next: node0}
-	node2 := &ListNode{Value: 1, List: singly, Next: node1}
-	node3 := &ListNode{Value: 3, List: singly, Next: node2}
-	node4 := &ListNode{Value: 5, List: singly, Next: node3}
+	node0 := &ListNode{Value: 2, list: singly, next: nil}
+	node1 := &ListNode{Value: 4, list: singly, next: node0}
+	node2 := &ListNode{Value: 1, list: singly, next: node1}
+	node3 := &ListNode{Value: 3, list: singly, next: node2}
+	node4 := &ListNode{Value: 5, list: singly, next: node3}
 
-	singly.head = &ListNode{List: singly, Next: node4}
+	singly.head = &ListNode{list: singly, next: node4}
+	node0.next = singly.head
 	singly.len = 5
 	return singly
 }
@@ -77,6 +78,7 @@ func TestFind(t *testing.T) {
 	for _, value := range values {
 		assert.Equal(t, value, singly.Find(value).Value)
 	}
+	assert.Nil(t, singly.Find(0))
 }
 
 func TestValues(t *testing.T) {
