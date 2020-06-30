@@ -22,61 +22,50 @@ func singlyList() *List {
 	node4 := &ListNode{Value: 5, List: singly, Next: node3}
 
 	singly.head = &ListNode{List: singly, Next: node4}
-	singly.size = 5
+	singly.len = 5
 	return singly
+}
+
+func TestInit(t *testing.T) {
+	var (
+		singly = singlyList()
+		values = []interface{}{5, 3, 1, 4, 2}
+		inited = New(values...)
+	)
+	assert.Equal(t, singly, inited)
+	assert.Equal(t, 5, inited.Len())
 }
 
 func TestInsert(t *testing.T) {
 	var (
-		singly             = singlyList()
-		inserted           = New()
-		values             = []int{5, 3, 1, 4, 2}
-		node     *ListNode = nil
+		singly   = singlyList()
+		inserted = singlyList()
 	)
 
-	assert.Equal(t, true, inserted.Empty(), "singlylinkedlist.Empty")
-	assert.Equal(t, node, inserted.Insert(values[0], node), "singlylinkedlist.Insert")
-	node = inserted.Head()
-
-	for i, value := range values {
-		assert.Equal(t, i, inserted.Size(), "singlylinkedlist.Size")
-		node = inserted.Insert(value, node)
-	}
-
-	assert.Equal(t, false, inserted.Empty(), "singlylinkedlist.Empty")
-	assert.Equal(t, singly, inserted, "singlylinkedlist.Insert")
-	assert.Equal(t, 5, inserted.First().Value, "singlylinkedlist.First")
-}
-
-func TestDelete(t *testing.T) {
-	var (
-		deleted = singlyList()
-		values  = []int{1, 2, 3, 4, 5}
-		cleared = singlyList()
-	)
-	for i, value := range values {
-		assert.Equal(t, len(values)-i, deleted.Size(), "singlylinkedlist.Size")
-		assert.Equal(t, true, deleted.Delete(value), "singlylinkedlist.Delete")
-	}
-
-	assert.Equal(t, false, deleted.Delete(values[0]), "singlylinkedlist.Delete")
-	assert.Equal(t, (*ListNode)(nil), deleted.First(), "singlylinkedlist.First")
-
-	cleared.Clear()
-	assert.Equal(t, deleted, cleared, "singlylinkedlist.Clear")
+	inserted.Clear()
+	inserted.Insert(0, nil)
+	inserted.PushFront(1)
+	inserted.PushFront(3)
+	inserted.PushFront(5)
+	inserted.PushBack(2)
+	inserted.Insert(4, inserted.Find(1))
+	assert.Equal(t, singly, inserted)
 }
 
 func TestRemove(t *testing.T) {
 	var (
 		removed = singlyList()
-		values  = []int{2, 3, 1, 5, 4}
 	)
 
-	assert.Equal(t, false, removed.Remove(&ListNode{List: removed}))
-	for _, value := range values {
-		assert.Equal(t, true, removed.Remove(removed.Find(value)))
-	}
-	assert.Equal(t, false, removed.Remove(removed.First()))
+	assert.Equal(t, 5, removed.PopFront())
+	assert.Equal(t, 2, removed.PopBack())
+	assert.Equal(t, 4, removed.Remove(removed.Find(4)))
+	assert.Equal(t, 3, removed.PopFront())
+	assert.Equal(t, 1, removed.PopFront())
+	assert.Equal(t, 0, removed.Len())
+	assert.Nil(t, removed.PopFront())
+	assert.Nil(t, removed.PopBack())
+	assert.True(t, removed.Empty())
 }
 
 func TestFind(t *testing.T) {
@@ -86,9 +75,7 @@ func TestFind(t *testing.T) {
 	)
 
 	for _, value := range values {
-		node := singly.Find(value)
-		assert.NotEqual(t, nil, node, "singlylinkedlist.Find")
-		assert.Equal(t, value, node.Value, "singlylinkedlist.Find")
+		assert.Equal(t, value, singly.Find(value).Value)
 	}
 }
 
@@ -98,5 +85,5 @@ func TestValues(t *testing.T) {
 		values = []interface{}{5, 3, 1, 4, 2}
 	)
 
-	assert.Equal(t, values, singly.Values(), "singlylinked.Values")
+	assert.Equal(t, values, singly.Values())
 }
