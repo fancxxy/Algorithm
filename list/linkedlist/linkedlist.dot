@@ -1,0 +1,23 @@
+digraph {
+	graph [rankdir=LR,splines=true]
+	node [shape=circle,fixedsize=true,width=1,height=1,fontsize=30]
+	edge [tailclip=false,/*arrowtail=dot,dir=both*/]
+
+	head [label="head"]
+	node0 [label="5"]
+	node1 [label="3"]
+	node2 [label="1"]
+	node3 [label="4"]
+	node4 [label="2"]
+    {node [shape=point, height=0] left right}
+
+    left:n -> head 
+	left:s -> right:s [arrowhead=none]
+	head:e -> node0:w
+	node0:e -> node1:w
+	node1:e -> node2:w
+	node2:e -> node3:w
+	node3:e -> node4:w
+	node4:e -> right:n [arrowhead=none]
+    // node4:s -> head:s [constraint=false]
+}
